@@ -1,6 +1,6 @@
 module DataStructures.ListSpec where
 
-import Prelude hiding (tail, head)
+import Prelude hiding (tail, head, drop, dropWhile, init)
 
 import Test.Hspec
 import Control.Exception (evaluate)
@@ -36,3 +36,27 @@ spec = do
       it "returns the first element in the list" $ do
         let list = fromList [1..3]
         setHead list 100 `shouldBe` Cons 100 (Cons 2 (Cons 3 Nil))
+  describe "drop" $ do
+    context "empty list" $ do
+      it "returns an empty list" $ do
+        (drop (Nil :: List Int)  2) `shouldBe` Nil
+    context "non-empty list" $ do
+      it "removes the first n elements from the list" $ do
+        let list = fromList [1..5]
+        drop list 4 `shouldBe` Cons 5 Nil
+  describe "dropWhile" $ do
+    context "empty list" $ do
+      it "returns an empty list" $ do
+        (dropWhile Nil (<10)) `shouldBe` Nil
+    context "non-empty list" $ do
+      it "removes elements from the beginning of the list while the predicate holds true" $ do
+        let list = fromList [1..5]
+        dropWhile list (<=3) `shouldBe` Cons 4 (Cons 5 Nil)
+  describe "init" $ do
+    context "empty list" $ do
+      it "is undefined" $ do
+        evaluate (init Nil) `shouldThrow` anyErrorCall 
+    context "non-empty list" $ do
+      it "returns all but the final element" $ do
+        let list = fromList [1..3]
+        init list `shouldBe` Cons 1 (Cons 2 Nil) 
