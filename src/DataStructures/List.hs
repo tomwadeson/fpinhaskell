@@ -126,3 +126,9 @@ flatMap f = concat . map f
 -- 3.21
 filter' :: (a -> Bool) -> List a -> List a
 filter' p = flatMap (\x -> if p x then Cons x Nil else Nil)
+
+-- 3.22
+addElems :: (Num a) => List a -> List a -> List a
+addElems Nil _                   = Nil
+addElems _ Nil                   = Nil
+addElems (Cons x xs) (Cons y ys) = Cons (x+y) $ addElems xs ys

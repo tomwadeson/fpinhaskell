@@ -132,3 +132,8 @@ spec = do
     it "applies a function (which returns a map) to all elements and flattens the resulting list" $ do
       let list = fromList [1..3]
       flatMap (\x -> Cons x (Cons x Nil)) list `shouldBe` fromList [1,1,2,2,3,3]
+  describe "addElems" $ do
+    it "adds corresponding elements from two lists of numbers" $ do
+      let list1 = fromList [1..3]
+      let list2 = fromList [100, 200, 300]
+      addElems list1 list2 `shouldBe` fromList [101, 202, 303]
