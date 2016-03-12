@@ -1,6 +1,6 @@
 module DataStructures.ListSpec where
 
-import Prelude hiding (tail, head, drop, dropWhile, init, sum, product)
+import Prelude hiding (tail, head, drop, dropWhile, init, sum, product, length, reverse, concat)
 
 import Test.Hspec
 import Control.Exception (evaluate)
@@ -61,9 +61,10 @@ spec = do
         let list = fromList [1..3]
         init list `shouldBe` Cons 1 (Cons 2 Nil) 
   describe "foldRight" $ do
-    it "summarises a list" $ do
+    it "summarises a list (right associative)" $ do
       let list = fromList [1..3]
       foldRight (+) 0 list `shouldBe` 6
+      foldRight' (+) 0 list `shouldBe` 6
   describe "sum and sum'" $ do
     it "compute the sum of a list of numbers" $ do
       let list = fromList [1..5]
@@ -74,3 +75,28 @@ spec = do
       let list = fromList [1..5]
       product list `shouldBe` 120
       product' list `shouldBe` 120
+  describe "length" $ do
+    it "computes the length of a list" $ do
+      let list = fromList [1..5]
+      length list `shouldBe` 5
+      length' list `shouldBe` 5
+  describe "foldLeft" $ do
+    it "summarises a list (left associative)" $ do
+      let list = fromList [1..3]
+      foldLeft (+) 0 list `shouldBe` 6
+  describe "reverse" $ do
+    it "reverses a list" $ do
+      let list = fromList [1..5]
+      reverse list `shouldBe` Cons 5 (Cons 4 (Cons 3 (Cons 2 (Cons 1 Nil))))
+  describe "append" $ do
+    it "concatenates two lists" $ do
+      let list1 = fromList [3..5]
+      let list2 = fromList [1..2]
+      append list1 list2 `shouldBe` Cons 1 (Cons 2 (Cons 3 (Cons 4 (Cons 5 Nil))))
+  describe "concat" $ do
+    it "concats/flattens a list of lists into a single list" $ do
+      let list1 = fromList [1..2]
+      let list2 = fromList [3..4]
+      let list3 = fromList [5..7]
+      let list = fromList [list1, list2, list3]
+      concat list `shouldBe` Cons 1 (Cons 2 (Cons 3 (Cons 4 (Cons 5 (Cons 6 (Cons 7 Nil))))))

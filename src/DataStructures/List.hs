@@ -1,6 +1,6 @@
 module DataStructures.List where
 
-import Prelude hiding (tail, head, drop, dropWhile, init, sum, product)
+import Prelude hiding (tail, head, drop, dropWhile, init, sum, product, length, reverse, concat)
 
 data List a = Cons a (List a)
             | Nil
@@ -50,12 +50,44 @@ sum :: (Num a) => List a -> a
 sum Nil         = 0
 sum (Cons x xs) = x + sum xs
 
-sum' :: (Num a) => List a -> a
-sum' = foldRight (+) 0
-
 product :: (Num a) => List a -> a
 product Nil         = 1
 product (Cons x xs) = x * product xs
 
+-- Ex 3.7
+-- Ex 3.8
+
+-- Ex 3.9
+length :: List a -> Int
+length = foldRight (\_ acc -> acc+1) 0
+
+-- Ex 3.10
+foldLeft :: (b -> a -> b) -> b -> List a -> b
+foldLeft _ acc Nil         = acc
+foldLeft f acc (Cons x xs) = foldLeft f (f acc x) xs
+
+-- Ex 3.11
+sum' :: (Num a) => List a -> a
+sum' = foldLeft (+) 0
+
 product' :: (Num a) => List a -> a
-product' = foldRight (*) 1
+product' = foldLeft (*) 1
+
+length' :: List a -> Int
+length' = foldLeft (\acc _ -> acc+1) 0
+
+-- Ex 3.12
+reverse :: List a -> List a
+reverse = foldLeft (\acc x -> Cons x acc) Nil -- (flip Cons) works too
+
+-- Ex 3.13
+foldRight' :: (a -> b -> b) -> b -> List a -> b
+foldRight' f acc xs = foldLeft (flip f) acc (reverse xs)
+
+-- Ex 3.14
+append :: List a -> List a -> List a
+append = foldRight Cons
+
+-- Ex 3.15
+concat :: List (List a) -> List a
+concat = foldRight (flip append) Nil
