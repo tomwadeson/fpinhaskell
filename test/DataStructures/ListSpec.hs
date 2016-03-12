@@ -1,6 +1,6 @@
 module DataStructures.ListSpec where
 
-import Prelude hiding (tail, head, drop, dropWhile, init)
+import Prelude hiding (tail, head, drop, dropWhile, init, sum, product)
 
 import Test.Hspec
 import Control.Exception (evaluate)
@@ -60,3 +60,17 @@ spec = do
       it "returns all but the final element" $ do
         let list = fromList [1..3]
         init list `shouldBe` Cons 1 (Cons 2 Nil) 
+  describe "foldRight" $ do
+    it "summarises a list" $ do
+      let list = fromList [1..3]
+      foldRight (+) 0 list `shouldBe` 6
+  describe "sum and sum'" $ do
+    it "compute the sum of a list of numbers" $ do
+      let list = fromList [1..5]
+      sum list `shouldBe` 15
+      sum' list `shouldBe` 15
+  describe "product and product'" $ do
+    it "compute the product of a list of numbers" $ do
+      let list = fromList [1..5]
+      product list `shouldBe` 120
+      product' list `shouldBe` 120
