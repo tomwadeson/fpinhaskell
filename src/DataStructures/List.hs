@@ -118,3 +118,7 @@ map f = foldRight (\x acc -> Cons (f x) acc) Nil
 -- Ex 3.19
 filter :: (a -> Bool) -> List a -> List a
 filter p = foldRight (\x acc -> if p x then Cons x acc else acc) Nil
+
+-- 3.20
+flatMap :: (a -> List b) -> List a -> List b
+flatMap f = concat . map f
