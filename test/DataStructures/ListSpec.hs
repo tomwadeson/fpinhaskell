@@ -1,6 +1,6 @@
 module DataStructures.ListSpec where
 
-import Prelude hiding (tail, head, drop, dropWhile, init, sum, product, length, reverse, concat)
+import Prelude hiding (tail, head, drop, dropWhile, init, sum, product, length, reverse, concat, map)
 
 import Test.Hspec
 import Control.Exception (evaluate)
@@ -105,6 +105,10 @@ spec = do
       let list = fromList [1..5]
       addOneToAll list `shouldBe` fromList [2..6]
   describe "dtos" $ do
-    it "Converts a list of Doubles to a list of Strings" $ do
+    it "converts a list of Doubles to a list of Strings" $ do
       let list = fromList [0.25, 0.5, 0.75]
       dtos list `shouldBe` fromList ["0.25", "0.5", "0.75"]
+  describe "map" $ do
+    it "applies the supplied function to each element contained in a list" $ do
+      let list = fromList [1..5]
+      map (*100) list `shouldBe` fromList [100, 200, 300, 400, 500]

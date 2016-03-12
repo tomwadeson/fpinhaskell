@@ -1,6 +1,6 @@
 module DataStructures.List where
 
-import Prelude hiding (tail, head, drop, dropWhile, init, sum, product, length, reverse, concat)
+import Prelude hiding (tail, head, drop, dropWhile, init, sum, product, length, reverse, concat, map)
 
 data List a = Cons a (List a)
             | Nil
@@ -99,3 +99,7 @@ addOneToAll = foldRight (\x acc -> Cons (x+1) acc) Nil
 -- Ex 3.17
 dtos :: List Double -> List String
 dtos = foldRight (\x acc -> Cons (show x) acc) Nil
+
+-- Ex 3.18
+map :: (a -> b) -> List a -> List b
+map f = foldRight (\x acc -> Cons (f x) acc) Nil
