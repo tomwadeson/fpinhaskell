@@ -127,6 +127,7 @@ spec = do
     it "filters elements from a list according to a given predicate" $ do
       let list = fromList [1..5]
       filter (<4) list `shouldBe` fromList [1..3]
+      filter' (<4) list `shouldBe` fromList [1..3]
   describe "flatMap" $ do
     it "applies a function (which returns a map) to all elements and flattens the resulting list" $ do
       let list = fromList [1..3]

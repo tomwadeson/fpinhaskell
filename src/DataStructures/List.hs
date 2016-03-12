@@ -122,3 +122,7 @@ filter p = foldRight (\x acc -> if p x then Cons x acc else acc) Nil
 -- 3.20
 flatMap :: (a -> List b) -> List a -> List b
 flatMap f = concat . map f
+
+-- 3.21
+filter' :: (a -> Bool) -> List a -> List a
+filter' p = flatMap (\x -> if p x then Cons x Nil else Nil)
