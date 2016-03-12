@@ -95,3 +95,7 @@ concat = foldRight (flip append) Nil
 -- Ex 3.16
 addOneToAll :: (Num a) => List a -> List a
 addOneToAll = foldRight (\x acc -> Cons (x+1) acc) Nil
+
+-- Ex 3.17
+dtos :: List Double -> List String
+dtos = foldRight (\x acc -> Cons (show x) acc) Nil

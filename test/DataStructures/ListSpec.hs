@@ -104,3 +104,7 @@ spec = do
     it "adds 1 to every number in a list" $ do
       let list = fromList [1..5]
       addOneToAll list `shouldBe` fromList [2..6]
+  describe "dtos" $ do
+    it "Converts a list of Doubles to a list of Strings" $ do
+      let list = fromList [0.25, 0.5, 0.75]
+      dtos list `shouldBe` fromList ["0.25", "0.5", "0.75"]
