@@ -11,7 +11,8 @@ import Prelude hiding ( tail
                       , reverse
                       , concat
                       , map
-                      , filter )
+                      , filter 
+                      , zipWith )
 
 data List a = Cons a (List a)
             | Nil
@@ -132,3 +133,9 @@ addElems :: (Num a) => List a -> List a -> List a
 addElems Nil _                   = Nil
 addElems _ Nil                   = Nil
 addElems (Cons x xs) (Cons y ys) = Cons (x+y) $ addElems xs ys
+
+-- 3.23
+zipWith :: (a -> b -> c) -> List a -> List b -> List c
+zipWith _ Nil _                   = Nil
+zipWith _ _ Nil                   = Nil
+zipWith f (Cons x xs) (Cons y ys) = Cons (f x y) $ zipWith f xs ys

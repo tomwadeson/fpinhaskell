@@ -11,7 +11,8 @@ import Prelude hiding ( tail
                       , reverse
                       , concat
                       , map
-                      , filter )
+                      , filter 
+                      , zipWith )
 
 import Test.Hspec
 import Control.Exception (evaluate)
@@ -137,3 +138,8 @@ spec = do
       let list1 = fromList [1..3]
       let list2 = fromList [100, 200, 300]
       addElems list1 list2 `shouldBe` fromList [101, 202, 303]
+  describe "zipWith" $ do
+    it "applies the supplied function in a pairwise manner to elements in two lists" $ do
+      let list1 = fromList [1..5]
+      let list2 = fromList $ repeat 5 
+      zipWith (-) list1 list2 `shouldBe` fromList [(-4), (-3), (-2), (-1), 0]
