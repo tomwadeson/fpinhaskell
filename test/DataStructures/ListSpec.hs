@@ -100,3 +100,7 @@ spec = do
       let list3 = fromList [5..7]
       let list = fromList [list1, list2, list3]
       concat list `shouldBe` Cons 1 (Cons 2 (Cons 3 (Cons 4 (Cons 5 (Cons 6 (Cons 7 Nil))))))
+  describe "addOneToAll" $ do
+    it "adds 1 to every number in a list" $ do
+      let list = fromList [1..5]
+      addOneToAll list `shouldBe` fromList [2..6]
