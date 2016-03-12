@@ -1,6 +1,17 @@
 module DataStructures.ListSpec where
 
-import Prelude hiding (tail, head, drop, dropWhile, init, sum, product, length, reverse, concat, map)
+import Prelude hiding ( tail
+                      , head
+                      , drop
+                      , dropWhile
+                      , init
+                      , sum
+                      , product
+                      , length
+                      , reverse
+                      , concat
+                      , map
+                      , filter )
 
 import Test.Hspec
 import Control.Exception (evaluate)
@@ -112,3 +123,7 @@ spec = do
     it "applies the supplied function to each element contained in a list" $ do
       let list = fromList [1..5]
       map (*100) list `shouldBe` fromList [100, 200, 300, 400, 500]
+  describe "filter" $ do
+    it "filters elements from a list according to a given predicate" $ do
+      let list = fromList [1..5]
+      filter (<4) list `shouldBe` fromList [1..3]
