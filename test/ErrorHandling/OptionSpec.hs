@@ -44,3 +44,10 @@ spec = do
     context "None" $ do
       it "returns None" $ do
         filter (>18) None `shouldBe` None
+  describe "variance" $ do
+    context "empty list" $ do
+      it "returns None" $ do
+        variance [] `shouldBe` None
+    context "non-empty list" $ do
+      it "computes the variance of the sequence" $ do
+        variance [1..10] `shouldBe` Some 8.25
