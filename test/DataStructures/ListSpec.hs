@@ -12,7 +12,8 @@ import Prelude hiding ( tail
                       , concat
                       , map
                       , filter 
-                      , zipWith )
+                      , zipWith 
+                      , any )
 
 import Test.Hspec
 import Control.Exception (evaluate)
@@ -143,3 +144,18 @@ spec = do
       let list1 = fromList [1..5]
       let list2 = fromList $ repeat 5 
       zipWith (-) list1 list2 `shouldBe` fromList [(-4), (-3), (-2), (-1), 0]
+  describe "hasSubsequence" $ do
+    it "determines whether a list contains another list" $ do
+      let list = fromList "Hello, my name is Tom"
+      (hasSubsequence list $ fromList "Hello") `shouldBe` True
+      (hasSubsequence list $ fromList "name") `shouldBe` True
+      (hasSubsequence list $ fromList "Tom") `shouldBe` True
+  describe "tails" $ do
+    it "produces a list of recurisvely calling tail on the input list" $ do
+      let listTails = toList . map toList . tails $ fromList [1..3]
+      listTails `shouldBe` [[1,2,3], [2,3], [3]]
+  describe "isPrefixOf" $ do
+    it "determines whether a list begins with a second list" $ do
+      let list = fromList "Hello, World"
+      (fromList "Hello" `isPrefixOf` list) `shouldBe` True
+      (fromList "'ello" `isPrefixOf` list) `shouldBe` False

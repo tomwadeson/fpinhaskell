@@ -12,7 +12,8 @@ import Prelude hiding ( tail
                       , concat
                       , map
                       , filter 
-                      , zipWith )
+                      , zipWith 
+                      , any )
 
 data List a = Cons a (List a)
             | Nil
@@ -20,6 +21,9 @@ data List a = Cons a (List a)
 
 fromList :: [a] -> List a
 fromList = foldr Cons Nil
+
+toList :: List a -> [a]
+toList = foldRight (:) []
 
 head :: List a -> a
 head Nil        = undefined
@@ -139,3 +143,19 @@ zipWith :: (a -> b -> c) -> List a -> List b -> List c
 zipWith _ Nil _                   = Nil
 zipWith _ _ Nil                   = Nil
 zipWith f (Cons x xs) (Cons y ys) = Cons (f x y) $ zipWith f xs ys
+
+-- 3.24
+hasSubsequence :: (Eq a) => List a -> List a -> Bool
+hasSubsequence xs ys = any . map (isPrefixOf ys) . tails $ xs
+  where
+    any = foldLeft (||) False
+
+tails :: List a -> List (List a)
+tails Nil              = Nil
+tails list@(Cons _ xs) = Cons list (tails xs)
+
+isPrefixOf :: (Eq a) => List a -> List a -> Bool
+isPrefixOf xs ys = 
+  let pairwiseEq = zipWith (==) xs ys
+      prefix = foldLeft (&&) True pairwiseEq
+  in  length xs == length pairwiseEq && prefix
