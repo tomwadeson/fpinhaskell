@@ -40,3 +40,9 @@ variance xs = flatMap variance' $ mean xs
 mean :: [Double] -> Option Double
 mean [] = None
 mean xs = Some (sum xs / (fromIntegral . length $ xs))
+
+-- Ex 4.3
+map2 :: (a -> b -> c) -> Option a -> Option b -> Option c
+map2 _ _ None            = None
+map2 _ None _            = None
+map2 f (Some x) (Some y) = Some (f x y)

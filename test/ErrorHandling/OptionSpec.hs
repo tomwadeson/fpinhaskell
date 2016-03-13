@@ -51,3 +51,10 @@ spec = do
     context "non-empty list" $ do
       it "computes the variance of the sequence" $ do
         variance [1..10] `shouldBe` Some 8.25
+  describe "map2" $ do
+    it "lifts a function of two parameters into the Option context" $ do
+      let o1 = Some 1
+      let o2 = Some 2
+      map2 (+) o1 o2 `shouldBe` Some 3
+      map2 (+) None o2 `shouldBe` None
+      map2 (+) o1 None `shouldBe` None
