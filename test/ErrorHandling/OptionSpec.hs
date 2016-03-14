@@ -1,6 +1,6 @@
 module ErrorHandling.OptionSpec where
 
-import Prelude hiding (map, filter)
+import Prelude hiding (map, filter, sequence)
 
 import ErrorHandling.Option
 import Test.Hspec
@@ -58,3 +58,12 @@ spec = do
       map2 (+) o1 o2 `shouldBe` Some 3
       map2 (+) None o2 `shouldBe` None
       map2 (+) o1 None `shouldBe` None
+  describe "sequence" $ do
+    context "list contains one or more None values" $ do
+      it "returns None" $ do
+        let list = [Some 1, Some 2, None, Some 4, Some 5]
+        sequence list `shouldBe` None
+    context "list contains all Some values" $ do
+      it "combines a list of Options into one Option containing a list of all Some values" $ do
+        let list = [Some 1, Some 2, Some 3, Some 4, Some 5]
+        sequence list `shouldBe` Some [1..5]

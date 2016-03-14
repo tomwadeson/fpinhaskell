@@ -1,6 +1,6 @@
 module ErrorHandling.Option where
 
-import Prelude hiding (map)
+import Prelude hiding (map, sequence)
 import qualified Prelude as P
 
 data Option a = None
@@ -46,3 +46,7 @@ map2 :: (a -> b -> c) -> Option a -> Option b -> Option c
 map2 _ _ None            = None
 map2 _ None _            = None
 map2 f (Some x) (Some y) = Some (f x y)
+
+-- Ex 4.4
+sequence :: [Option a] -> Option [a]
+sequence = foldr (map2 (:)) (Some [])
