@@ -1,6 +1,6 @@
 module ErrorHandling.OptionSpec where
 
-import Prelude hiding (map, filter, sequence)
+import Prelude hiding (map, filter, sequence, traverse)
 
 import ErrorHandling.Option
 import Test.Hspec
@@ -63,7 +63,14 @@ spec = do
       it "returns None" $ do
         let list = [Some 1, Some 2, None, Some 4, Some 5]
         sequence list `shouldBe` None
+        sequence' list `shouldBe` None
     context "list contains all Some values" $ do
       it "combines a list of Options into one Option containing a list of all Some values" $ do
         let list = [Some 1, Some 2, Some 3, Some 4, Some 5]
         sequence list `shouldBe` Some [1..5]
+        sequence' list `shouldBe` Some [1..5]
+  describe "traverse" $ do
+    it "maps a (potentially failing) function over a list and sequences the result" $ do
+      let f = \x -> if x == 5 then None else Some x
+      traverse f [1..5] `shouldBe` None
+      traverse f [1..4] `shouldBe` Some [1..4]
