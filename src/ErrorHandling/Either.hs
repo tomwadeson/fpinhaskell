@@ -1,6 +1,6 @@
 module ErrorHandling.Either where
 
-import Prelude hiding (Either(..))
+import Prelude hiding (Either(..), traverse)
 
 data Either e a = Left e
                 | Right a
@@ -23,3 +23,10 @@ map2 :: (a -> b -> c) -> Either e a -> Either e b -> Either e c
 map2 _ (Left x) _          = Left x
 map2 _ _ (Left x)          = Left x
 map2 f (Right x) (Right y) = Right (f x y)
+
+-- Ex 4.7
+sequence :: [Either e a] -> Either e [a]
+sequence = traverse id
+
+traverse :: (a -> Either e b) -> [a] -> Either e [b]
+traverse f = foldr (map2 (:) . f) (Right [])

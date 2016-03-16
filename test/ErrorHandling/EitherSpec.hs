@@ -1,6 +1,6 @@
 module ErrorHandling.EitherSpec where
 
-import Prelude hiding (Either(..), map)
+import Prelude hiding (Either(..), map, sequence, traverse)
 
 import Test.Hspec
 import ErrorHandling.Either
@@ -37,3 +37,17 @@ spec = do
       map2 (+) e1 e2 `shouldBe` Right 3
       map2 (+) (Left "" :: Either String Int) e1 `shouldBe` Left ""
       map2 (+) e1 (Left "" :: Either String Int) `shouldBe` Left ""
+  describe "sequence" $ do
+    context "list contains one or more Left values" $ do
+      it "returns the first Left" $ do
+        let list = [Right 1, Right 2, Left "Foo", Right 3, Left "Bar"] :: [Either String Int]
+        sequence list `shouldBe` Left "Foo"
+    context "list contains all Right values" $ do
+      it "combines a list of Rights into a Right containing a list of all the Right values" $ do
+        let list = [Right 1, Right 2, Right 3, Right 4, Right 5] :: [Either String Int]
+        sequence list `shouldBe` Right [1..5]
+  describe "traverse" $ do
+    it "maps a (potentially failing) function over a list and sequences the result" $ do
+      let f = (\x -> if x == 5 then (Left "Foo") else (Right x)) 
+      traverse f [1..5] `shouldBe` Left "Foo"
+      traverse f [1..4] `shouldBe` Right [1..4]
